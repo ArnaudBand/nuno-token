@@ -1,0 +1,4 @@
+NunoTokenTest:testInitialBalance() (gas: 14767)
+NunoTokenTest:testName() (gas: 35178)
+NunoTokenTest:testTotalSupply() (gas: 12547)
+NunoTokenTest:testTransfer() (gas: 46270)
