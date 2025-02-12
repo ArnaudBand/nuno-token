@@ -8,7 +8,7 @@ contract DeployNunoToken is Script {
 
 
   NunoToken public nuno;
-  uint256 TOTALSUPPLY = 100;
+  uint256 TOTALSUPPLY = 1000;
 
   address public deployer;
 
