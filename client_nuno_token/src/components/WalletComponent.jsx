@@ -30,7 +30,7 @@ const WalletComponent = () => {
   
   // Airdrop states
   const [recipients, setRecipients] = useState("");
-  const [airdropAmounts, setAirdropAmounts] = useState("");
+  const [airdropAmounts, setAirdropAmounts] = useState("40");
   
   // Status states
   const [error, setError] = useState("");
@@ -121,6 +121,7 @@ const WalletComponent = () => {
     try {
       setTxStatus("Processing transfer...");
       const amountToSend = ethers.utils.parseUnits(transferAmount, 18);
+      console.log("Amount to send", amountToSend);
       const tx = await contract.transfer(transferReceiver, amountToSend);
       await tx.wait();
       await updateTokenInfo(contract, walletAddress);
@@ -159,7 +160,7 @@ const WalletComponent = () => {
       );
       await tx.wait();
       await updateTokenInfo(contract, walletAddress);
-      setTxStatus("Transfer from successful!");
+      setTimeout(() => setTxStatus("Transfer successful!"));
       setTransferFromAmount("");
       setTransferFromSender("");
       setTransferFromReceiver("");
@@ -174,8 +175,9 @@ const WalletComponent = () => {
       setTxStatus("Processing airdrop...");
       const recipientList = recipients.split(',').map(addr => addr.trim());
       const amountList = airdropAmounts.split(',').map(amount => 
-        ethers.utils.parseUnits(amount.trim(), 18)
+        ethers.utils.parseUnits("40", 18)
       );
+      console.log("Amount airdrop", amountList);
       
       const tx = await contract.airdrop(recipientList, amountList);
       await tx.wait();
@@ -330,12 +332,6 @@ const WalletComponent = () => {
                   value={recipients}
                   onChange={(e) => setRecipients(e.target.value)}
                 />
-                <input
-                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Amounts (comma-separated)"
-                  value={airdropAmounts}
-                  onChange={(e) => setAirdropAmounts(e.target.value)}
-                />
                 <button
                   onClick={handleAirdrop}
                   className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
@@ -348,7 +344,7 @@ const WalletComponent = () => {
             {/* Status Messages */}
             {error && (
               <div className="mt-4 p-3 bg-red-50 text-red-600 rounded-md">
-                {error}
+                {error.slice(2, 30) + "...."}
               </div>
             )}
             {txStatus && (
